@@ -15,12 +15,15 @@ echo "$($PSQL "SELECT AVG(winner_goals) FROM games")"
 
 echo -e "\nAverage number of goals in all games from the winning teams rounded to two decimal places:"
 echo "$($PSQL "SELECT ROUND(AVG(winner_goals), 2) FROM games")"
+echo "$($PSQL "SELECT ROUND(AVG(winner_goals)::NUMERIC, 2) FROM games")"
 
 echo -e "\nAverage number of goals in all games from both teams:"
 echo "$($PSQL "SELECT AVG(winner_goals + opponent_goals) FROM games")"
 
 echo -e "\nMost goals scored in a single game by one team:"
 echo "$($PSQL "SELECT MAX(winner_goals) FROM games")"
+# Most goals scored in a single game by one team
+echo "$($PSQL "SELECT MAX(GREATEST(winner_goals, opponent_goals)) FROM games")"
 
 echo -e "\nNumber of games where the winning team scored more than two goals:"
 echo "$($PSQL "SELECT COUNT(*) FROM games WHERE winner_goals > 2")"
